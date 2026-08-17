@@ -126,6 +126,50 @@ function downloadIcs(e) {
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
 
+function googleCalUrl(e) {
+  const loc = [e.venue, e.city, e.state].filter(Boolean).join(', ');
+  const p = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: 'Runaway Train at ' + e.venue,
+    dates: icsStamp(e.date, e.start) + '/' + icsStamp(e.date, e.end || e.start),
+    location: loc,
+    details: 'Live country & country-rock covers from Runaway Train.' + (e.notes ? ' ' + e.notes : '')
+  });
+  return 'https://calendar.google.com/calendar/render?' + p.toString();
+}
+
+/* "Add to calendar" → small menu: Google Calendar (new tab) or .ics download.
+   up=true opens the menu above the button (for the bottom mobile bar). */
+function attachCalMenu(btn, ev, up = false) {
+  const wrap = document.createElement('span');
+  wrap.className = 'cal-wrap' + (up ? ' up' : '');
+  btn.parentNode.insertBefore(wrap, btn);
+  wrap.appendChild(btn);
+  const pop = document.createElement('div');
+  pop.className = 'cal-pop';
+  pop.hidden = true;
+  const g = document.createElement('a');
+  g.href = googleCalUrl(ev);
+  g.target = '_blank';
+  g.rel = 'noopener';
+  g.textContent = 'Google Calendar';
+  const a = document.createElement('button');
+  a.type = 'button';
+  a.textContent = 'Apple / Outlook (.ics)';
+  a.addEventListener('click', () => { downloadIcs(ev); pop.hidden = true; });
+  g.addEventListener('click', () => { pop.hidden = true; });
+  pop.append(g, a);
+  wrap.appendChild(pop);
+  btn.addEventListener('click', evt => {
+    evt.stopPropagation();
+    document.querySelectorAll('.cal-pop').forEach(p => { if (p !== pop) p.hidden = true; });
+    pop.hidden = !pop.hidden;
+  });
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.cal-pop').forEach(p => { p.hidden = true; });
+});
+
 /* ---------------- rendering ---------------- */
 function showCard(e) {
   const dt = parseLocal(e.date, e.start);
@@ -156,7 +200,7 @@ function showCard(e) {
   card.querySelector('.venue').textContent = e.venue;
   card.querySelector('.meta').textContent = meta;
   card.querySelector('.lineup').textContent = e.lineup || '';
-  card.querySelector('button').addEventListener('click', () => downloadIcs(e));
+  attachCalMenu(card.querySelector('button'), e);
   return card;
 }
 
@@ -234,7 +278,7 @@ async function initShows() {
       if (what) what.textContent = `${short} · ${where}`;
       if (when && next.start) when.textContent = fmtTime(next.start) + (next.end ? '–' + fmtTime(next.end) : '');
       const cal = el.querySelector('[data-next-cal]');
-      if (cal) cal.addEventListener('click', () => downloadIcs(next));
+      if (cal) attachCalMenu(cal, next);
       el.hidden = false;
     });
     if (bar) {
@@ -242,7 +286,7 @@ async function initShows() {
       const v = bar.querySelector('.v');
       if (v) v.textContent = `${short} · ${next.venue}`;
       const btn = bar.querySelector('button');
-      if (btn) btn.addEventListener('click', () => downloadIcs(next));
+      if (btn) attachCalMenu(btn, next, true);
     }
   }
 }

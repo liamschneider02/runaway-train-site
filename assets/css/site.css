@@ -266,10 +266,10 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 
 /* ---- marquee ---- */
 .marquee-band { overflow: hidden; padding: 8px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: #121010; }
-.marquee-track { display: flex; width: max-content; animation: marquee 42s linear infinite; }
+.marquee-track { display: flex; width: max-content; animation: marquee 42s linear infinite; will-change: transform; }
 .marquee-band:hover .marquee-track { animation-play-state: paused; }
 .marquee-track span {
-  display: inline-flex; align-items: center; padding: 10px 22px;
+  display: inline-flex; align-items: center; flex: 0 0 auto; padding: 10px 22px;
   font-family: var(--f-display); font-size: clamp(17px, 1vw + 13px, 22px);
   text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
 }
@@ -361,6 +361,25 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 .mobile-bar .v { font-family: var(--f-display); font-size: 16px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mobile-bar .btn { margin-left: auto; flex: 0 0 auto; }
 @media (max-width: 900px) { .mobile-bar.has-show { display: flex; } }
+
+/* ---- add-to-calendar menu ---- */
+.cal-wrap { position: relative; display: inline-flex; }
+.cal-pop {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 70;
+  min-width: 220px; background: var(--surface-2); border: 1px solid var(--border-warm);
+  border-radius: var(--radius); box-shadow: 0 12px 40px rgba(0, 0, 0, .55);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.cal-pop[hidden] { display: none; }
+.cal-wrap.up .cal-pop { top: auto; bottom: calc(100% + 8px); }
+.cal-pop a, .cal-pop button {
+  text-align: left; padding: 0 16px; min-height: 46px; display: flex; align-items: center;
+  background: none; border: 0; border-bottom: 1px solid var(--border); cursor: pointer;
+  color: var(--text); font-family: var(--f-display); font-size: 13px;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.cal-pop a:last-child, .cal-pop button:last-child { border-bottom: 0; }
+.cal-pop a:hover, .cal-pop button:hover { color: var(--amber); background: var(--surface-hover); }
 
 /* ---- animation ---- */
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
