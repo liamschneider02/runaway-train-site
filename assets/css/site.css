@@ -96,11 +96,15 @@ input, select, textarea, button { font-family: var(--f-body); }
   width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%;
   object-fit: cover; box-shadow: 0 0 14px var(--amber-glow);
 }
+.brand br { display: none; }
 .brand .name {
-  font-family: var(--f-display); font-weight: 600; font-size: 19px; line-height: 1.05;
+  display: block; font-family: var(--f-display); font-weight: 600; font-size: 19px; line-height: 1;
   letter-spacing: .12em; text-transform: uppercase; white-space: nowrap;
 }
-.brand .tag { font-family: var(--f-script); font-size: 15px; line-height: 1; color: var(--amber); white-space: nowrap; }
+.brand .tag {
+  display: block; margin-top: -3px; font-family: var(--f-script); font-size: 15px; line-height: 1;
+  color: var(--amber); white-space: nowrap;
+}
 .site-nav {
   display: flex; margin-left: auto; gap: clamp(14px, 1vw + 8px, 26px);
   font-family: var(--f-display); font-size: 14px; letter-spacing: .14em; text-transform: uppercase;
