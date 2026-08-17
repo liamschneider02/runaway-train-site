@@ -1,0 +1,65 @@
+{
+  "_comment": "Runaway Train show list. Add shows here (or in the Google Sheet if enabled — the Sheet wins when configured). date = YYYY-MM-DD, start/end = 24h HH:MM local. Past shows hide automatically. fbEvent/ticketUrl are optional.",
+  "events": [
+    {
+      "date": "2026-08-21",
+      "start": "20:00",
+      "end": "23:00",
+      "venue": "M-K Ranch Bar & Grill",
+      "city": "Warrenton",
+      "state": "MO",
+      "lineup": "Runaway Train — full band",
+      "fbEvent": "",
+      "ticketUrl": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-09-05",
+      "start": "18:30",
+      "end": "21:30",
+      "venue": "The Quarry",
+      "city": "",
+      "state": "MO",
+      "lineup": "Runaway Train — full band",
+      "fbEvent": "",
+      "ticketUrl": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-09-18",
+      "start": "19:00",
+      "end": "23:00",
+      "venue": "Roadhouse Barn & Grill",
+      "city": "Barnhart",
+      "state": "MO",
+      "lineup": "Runaway Train — full band",
+      "fbEvent": "",
+      "ticketUrl": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-09-19",
+      "start": "12:00",
+      "end": "13:00",
+      "venue": "Oxfest",
+      "city": "Washington",
+      "state": "MO",
+      "lineup": "Festival appearance",
+      "fbEvent": "",
+      "ticketUrl": "",
+      "notes": "Set time TBD"
+    },
+    {
+      "date": "2026-10-17",
+      "start": "18:30",
+      "end": "21:30",
+      "venue": "The Quarry",
+      "city": "",
+      "state": "MO",
+      "lineup": "Runaway Train — full band",
+      "fbEvent": "",
+      "ticketUrl": "",
+      "notes": ""
+    }
+  ]
+}
