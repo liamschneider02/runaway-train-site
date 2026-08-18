@@ -181,7 +181,7 @@ function showCard(e) {
   const mapUrl = 'https://www.google.com/maps/search/' + encodeURIComponent([e.venue, e.city, e.state].filter(Boolean).join(', '));
 
   const card = document.createElement('article');
-  card.className = 'show-card';
+  card.className = 'show-card' + ((e.fbEvent ? 1 : 0) + (e.ticketUrl ? 1 : 0) > 0 ? ' show-card--many' : '');
   card.innerHTML = `
     <div class="show-date">
       <div class="dow">${DAYS[dt.getDay()]}</div>

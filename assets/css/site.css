@@ -232,8 +232,15 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 .show-info .meta { color: var(--text-muted); font-size: 16px; }
 .show-info .lineup { font-size: 14px; color: var(--text-dim); margin-top: 2px; }
 .show-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+/* Shows with 3+ actions (FB event / tickets): buttons get their own row so the
+   venue name never gets crushed */
+.show-card--many { grid-template-columns: minmax(96px, 120px) 1fr; }
+.show-card--many .show-date { grid-row: 1 / span 2; }
+.show-card--many .show-actions { grid-column: 2; justify-content: flex-start; }
 @media (max-width: 660px) {
-  .show-card { grid-template-columns: 1fr; gap: 14px; align-items: stretch; }
+  .show-card, .show-card--many { grid-template-columns: 1fr; gap: 14px; align-items: stretch; }
+  .show-card--many .show-date { grid-row: auto; }
+  .show-card--many .show-actions { grid-column: auto; }
   .show-date { text-align: left; border-right: 0; padding-right: 0; display: flex; align-items: baseline; gap: 10px; }
   .show-date .day { font-size: 34px; }
   .show-actions { justify-content: flex-start; }
