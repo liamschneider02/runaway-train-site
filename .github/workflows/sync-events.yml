@@ -1,0 +1,32 @@
+name: Daily events backup (Sheet → git)
+
+on:
+  schedule:
+    - cron: "0 11 * * *"   # 6:00 AM Central daily
+  workflow_dispatch: {}     # manual "Run workflow" button on GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync Sheet -> data/events.json
+        env:
+          SHEET_CSV_URL: ${{ vars.SHEET_CSV_URL }}
+        run: node scripts/sync-events.mjs
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet data/events.json; then
+            git config user.name "events-sync-bot"
+            git config user.email "actions@github.com"
+            git add data/events.json
+            git commit -m "chore: daily events backup from Google Sheet"
+            git push
+          else
+            echo "No changes to commit."
+          fi
