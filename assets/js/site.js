@@ -181,7 +181,7 @@ function showCard(e) {
   const mapUrl = 'https://www.google.com/maps/search/' + encodeURIComponent([e.venue, e.city, e.state].filter(Boolean).join(', '));
 
   const card = document.createElement('article');
-  card.className = 'show-card' + ((e.fbEvent ? 1 : 0) + (e.ticketUrl ? 1 : 0) > 0 ? ' show-card--many' : '');
+  card.className = 'show-card';
   card.innerHTML = `
     <div class="show-date">
       <div class="dow">${DAYS[dt.getDay()]}</div>
@@ -192,6 +192,7 @@ function showCard(e) {
       <div class="venue"></div>
       <div class="meta"></div>
       <div class="lineup"></div>
+      <div class="show-note" hidden></div>
     </div>
     <div class="show-actions">
       <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="${mapUrl}">Map</a>
@@ -202,6 +203,10 @@ function showCard(e) {
   card.querySelector('.venue').textContent = e.venue;
   card.querySelector('.meta').textContent = meta;
   card.querySelector('.lineup').textContent = e.lineup || '';
+  // Show notes on the card, unless they're just the TBD phrase already shown in meta
+  const noteEl = card.querySelector('.show-note');
+  const bareTbd = /^(set time )?tbd\.?$/i.test((e.notes || '').trim());
+  if (e.notes && !bareTbd) { noteEl.textContent = e.notes; noteEl.hidden = false; }
   attachCalMenu(card.querySelector('button'), e);
   return card;
 }

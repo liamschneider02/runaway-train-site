@@ -218,12 +218,13 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 /* ---- show cards ---- */
 .show-list { display: flex; flex-direction: column; gap: 14px; }
 .show-card {
-  display: grid; grid-template-columns: minmax(96px, 120px) 1fr auto;
-  gap: 22px; align-items: center; padding: 20px;
+  display: grid; grid-template-columns: minmax(96px, 120px) 1fr;
+  gap: 16px 22px; align-items: center; padding: 20px;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
 }
 .show-card:hover { border-color: var(--amber); background: var(--surface-hover); }
-.show-date { text-align: center; border-right: 1px solid var(--border); padding-right: 14px; }
+.show-date { grid-row: 1 / span 2; align-self: center; text-align: center; border-right: 1px solid var(--border); padding-right: 14px; }
+.show-card .show-actions { grid-column: 2; }
 .show-date .dow { font-family: var(--f-display); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--ember); }
 .show-date .day { font-family: var(--f-display); font-weight: 700; font-size: 40px; line-height: 1; }
 .show-date .mon { font-family: var(--f-display); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted); }
@@ -231,19 +232,16 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 .show-info .venue { font-family: var(--f-display); font-size: clamp(19px, 1vw + 14px, 24px); text-transform: uppercase; letter-spacing: .02em; }
 .show-info .meta { color: var(--text-muted); font-size: 16px; }
 .show-info .lineup { font-size: 14px; color: var(--text-dim); margin-top: 2px; }
-.show-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
-/* Shows with 3+ actions (FB event / tickets): buttons get their own row so the
-   venue name never gets crushed */
-.show-card--many { grid-template-columns: minmax(96px, 120px) 1fr; }
-.show-card--many .show-date { grid-row: 1 / span 2; }
-.show-card--many .show-actions { grid-column: 2; justify-content: flex-start; }
+.show-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start; }
+.show-note {
+  margin-top: 8px; max-width: 68ch; font-size: 14px; color: var(--text-body);
+  border-left: 2px solid var(--amber); padding-left: 10px;
+}
 @media (max-width: 660px) {
-  .show-card, .show-card--many { grid-template-columns: 1fr; gap: 14px; align-items: stretch; }
-  .show-card--many .show-date { grid-row: auto; }
-  .show-card--many .show-actions { grid-column: auto; }
-  .show-date { text-align: left; border-right: 0; padding-right: 0; display: flex; align-items: baseline; gap: 10px; }
+  .show-card { grid-template-columns: 1fr; gap: 14px; align-items: stretch; }
+  .show-date { grid-row: auto; text-align: left; border-right: 0; padding-right: 0; display: flex; align-items: baseline; gap: 10px; }
   .show-date .day { font-size: 34px; }
-  .show-actions { justify-content: flex-start; }
+  .show-actions { grid-column: auto; }
 }
 .show-empty { color: var(--text-muted); padding: 26px 0; }
 
