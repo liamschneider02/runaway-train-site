@@ -16,7 +16,7 @@ const SITE = {
   // Columns (row 1 headers): date, start, end, venue, city, state,
   // lineup, fbEvent, ticketUrl, notes  — date as YYYY-MM-DD, times 24h HH:MM.
   // When set, the Sheet REPLACES events.json.
-  sheetCsvUrl: '',
+  sheetCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpQOLvAyVXLyhlQp_KTV2KdNkmTkN42Dzf61Qh3ORNJvR0-LW7eGsLWV9brtCcamyu0Bp6R_DimRK9/pub?output=csv',
 
   // OPTION C: Bandsintown. Set the artist name registered on
   // Bandsintown for Artists and the shows page will render their
@@ -63,9 +63,11 @@ function parseCsv(text) {
     } else cur += c;
   }
   if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
-  if (!rows.length) return [];
-  const head = rows[0].map(h => h.trim().toLowerCase());
-  return rows.slice(1).filter(r => r.some(v => v.trim() !== '')).map(r => {
+  // Find the real header row wherever it is (band may add note rows above it)
+  const hIdx = rows.findIndex(r => (r[0] || '').replace(/^﻿/, '').trim().toLowerCase() === 'date');
+  if (hIdx === -1) return [];
+  const head = rows[hIdx].map(h => h.replace(/^﻿/, '').trim().toLowerCase());
+  return rows.slice(hIdx + 1).filter(r => r.some(v => v.trim() !== '')).map(r => {
     const o = {};
     head.forEach((h, i) => { o[h] = (r[i] || '').trim(); });
     return o;

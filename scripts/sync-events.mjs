@@ -27,8 +27,11 @@ function parseCsv(text) {
     } else cur += c;
   }
   if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
-  const head = rows[0].map(h => h.trim().toLowerCase());
-  return rows.slice(1).filter(r => r.some(v => v.trim() !== '')).map(r => {
+  // Find the real header row wherever it is (band may add note rows above it)
+  const hIdx = rows.findIndex(r => (r[0] || '').replace(/^﻿/, '').trim().toLowerCase() === 'date');
+  if (hIdx === -1) return [];
+  const head = rows[hIdx].map(h => h.replace(/^﻿/, '').trim().toLowerCase());
+  return rows.slice(hIdx + 1).filter(r => r.some(v => v.trim() !== '')).map(r => {
     const o = {};
     head.forEach((h, i) => { o[h] = (r[i] || '').trim(); });
     return o;
