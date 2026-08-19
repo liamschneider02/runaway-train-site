@@ -263,25 +263,35 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 .lineup-card ul { margin: 0 0 24px; padding-left: 20px; color: var(--text-body); }
 .lineup-card .btn { margin-top: auto; align-self: flex-start; }
 
-/* ---- band member cards ---- */
-.member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 20px; }
-.member-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.member-card:hover { border-color: var(--amber); }
-.member-card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; border-bottom: 1px solid var(--border); }
-.member-card .pad { padding: 18px; }
-.member-card .name { font-family: var(--f-display); font-size: 21px; text-transform: uppercase; letter-spacing: .03em; }
-.member-card .role { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ember); margin-bottom: 8px; }
-.member-card p { margin: 0; font-size: 15px; color: var(--text-muted); }
-.member-card .bio { margin-top: 12px; }
-.member-card .bio summary {
-  cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--f-display); font-size: 12px; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--amber); min-height: 32px;
+/* ---- band member feature rows (alternating) ---- */
+.member-rows { display: grid; gap: clamp(32px, 4vw, 56px); }
+.member-row {
+  display: grid; grid-template-columns: minmax(240px, 360px) 1fr;
+  gap: clamp(22px, 3vw, 48px); align-items: start;
+  padding-bottom: clamp(32px, 4vw, 56px); border-bottom: 1px solid var(--border);
 }
-.member-card .bio summary::-webkit-details-marker { display: none; }
-.member-card .bio summary::after { content: "+"; font-size: 16px; }
-.member-card .bio[open] summary::after { content: "–"; }
-.member-card .bio p { margin: 10px 0 0; font-size: 14px; color: var(--text-body); }
+.member-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.member-row.flip { grid-template-columns: 1fr minmax(240px, 360px); }
+.member-row.flip .member-photo { order: 2; }
+.member-photo {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
+  border: 1px solid var(--border-warm); border-radius: var(--radius);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, .45);
+}
+.member-photo.placeholder { object-fit: contain; padding: 18%; background: var(--surface); box-sizing: border-box; }
+.member-info .name { margin: 0; font-size: clamp(1.625rem, 1.3rem + 1.6vw, 2.375rem); line-height: 1.05; }
+.member-info .role {
+  font-family: var(--f-display); font-size: 13px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--ember); margin: 6px 0 4px;
+}
+.member-info .hook { font-family: var(--f-script); color: var(--amber); font-size: 19px; margin: 0 0 14px; }
+.member-info p { margin: 0 0 12px; font-size: 16px; color: var(--text-body); max-width: 68ch; }
+.member-info p:last-child { margin-bottom: 0; }
+@media (max-width: 760px) {
+  .member-row, .member-row.flip { grid-template-columns: 1fr; }
+  .member-row.flip .member-photo { order: 0; }
+  .member-photo { max-width: 420px; }
+}
 
 /* ---- marquee ---- */
 .marquee-band { overflow: hidden; padding: 8px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: #121010; }
