@@ -15,9 +15,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/photos/badge.jpg">
 <link rel="preload" href="/assets/fonts/oswald-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/fonts.css?v=8">
-<link rel="stylesheet" href="/assets/css/site.css?v=8">
-<script defer src="/assets/js/site.js?v=8"></script>
+<link rel="stylesheet" href="/assets/css/fonts.css?v=9">
+<link rel="stylesheet" href="/assets/css/site.css?v=9">
+<script defer src="/assets/js/site.js?v=9"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -91,7 +91,50 @@
     </div>
   </section>
 
-  <section class="section cta-strip section-alt" aria-labelledby="cta-h">
+  <section class="section section-alt" id="request" aria-labelledby="request-h">
+    <div class="wrap" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr)); gap:var(--sp-gap);">
+      <div>
+        <p class="kicker kicker-glow">Got a song in mind?</p>
+        <h2 id="request-h" style="line-height:.95; margin:4px 0 10px;">Request a song</h2>
+        <p class="lead" style="margin:0 0 18px; max-width:46ch;">Already in our book? We'll bump it up the set. Not in it yet? If the room wants it, we'll learn it.</p>
+        <div style="display:flex; flex-direction:column; gap:10px; color:var(--text-muted); font-size:16px;">
+          <div>Tell us which show you'll be at and we'll work it into that night's setlist.</div>
+          <div>Add a dedication and we'll give it a shout-out from the stage.</div>
+        </div>
+      </div>
+      <form class="form-card" data-request-form>
+        <div class="form-row">
+          <label>Song
+            <input type="text" name="song" required maxlength="120" placeholder="Neon Moon">
+          </label>
+          <label>Artist <span style="text-transform:none; letter-spacing:0;">(if you know it)</span>
+            <input type="text" name="artist" maxlength="120" placeholder="Brooks &amp; Dunn">
+          </label>
+        </div>
+        <label>Which show will you be at?
+          <select name="show">
+            <option>Just in general</option>
+          </select>
+        </label>
+        <div class="form-row">
+          <label>Your name <span style="text-transform:none; letter-spacing:0;">(optional)</span>
+            <input type="text" name="name" maxlength="80">
+          </label>
+          <label>Dedication / shout-out <span style="text-transform:none; letter-spacing:0;">(optional)</span>
+            <input type="text" name="dedication" maxlength="160" placeholder="For Sarah's 40th!">
+          </label>
+        </div>
+        <!-- honeypot: humans never see or fill this -->
+        <label style="position:absolute; left:-9999px;" aria-hidden="true" tabindex="-1">Website
+          <input type="text" name="website" tabindex="-1" autocomplete="off">
+        </label>
+        <button class="btn btn-primary btn-lg" type="submit">Send the request</button>
+        <div class="form-note">Requests go straight to the band's setlist planning.</div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section cta-strip" aria-labelledby="cta-h">
     <div class="wrap">
       <p class="kicker kicker-glow">Hear it live</p>
       <h2 id="cta-h">Three sets, tuned to your crowd</h2>

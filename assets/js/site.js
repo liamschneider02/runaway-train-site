@@ -21,7 +21,12 @@ const SITE = {
   // OPTION C: Bandsintown. Set the artist name registered on
   // Bandsintown for Artists and the shows page will render their
   // public event feed instead (falls back to A/B on failure).
-  bandsintownArtist: ''
+  bandsintownArtist: '',
+
+  // Song requests: the Apps Script "Web app" URL from the band's
+  // schedule sheet (see scripts/apps-script-requests.gs). While empty,
+  // the form runs in demo mode (thank-you shown, nothing sent).
+  requestUrl: ''
 };
 
 /* ---------------- date helpers ---------------- */
@@ -81,6 +86,12 @@ function normalizeSheetRow(r) {
     lineup: r.lineup || '', fbEvent: r.fbevent || r.fb_event || '',
     ticketUrl: r.ticketurl || r.ticket_url || '', notes: r.notes || ''
   };
+}
+
+let _eventsPromise = null;
+function getEvents() {
+  if (!_eventsPromise) _eventsPromise = loadEvents();
+  return _eventsPromise;
 }
 
 async function loadEvents() {
@@ -261,7 +272,7 @@ async function initShows() {
 
   if (SITE.bandsintownArtist && listEl) { mountBandsintown(listEl); return; }
 
-  const events = upcoming(await loadEvents());
+  const events = upcoming(await getEvents());
   const limit = listEl ? parseInt(listEl.dataset.shows || '0', 10) : 0;
 
   if (listEl) {
@@ -329,8 +340,52 @@ function initForms() {
   });
 }
 
+/* ---------------- song request form ---------------- */
+async function initRequestForm() {
+  const form = document.querySelector('form[data-request-form]');
+  if (!form) return;
+  const loadedAt = Date.now();
+
+  // Fill the "which show" dropdown from the live schedule
+  const select = form.querySelector('select[name="show"]');
+  if (select) {
+    try {
+      const events = upcoming(await getEvents());
+      events.forEach(e => {
+        const dt = parseLocal(e.date, e.start);
+        const opt = document.createElement('option');
+        opt.textContent = `${DAYS[dt.getDay()]} ${MONTHS[dt.getMonth()]} ${dt.getDate()} — ${e.venue}${e.city ? ', ' + e.city : ''}`;
+        select.appendChild(opt);
+      });
+    } catch (e) { /* dropdown just keeps its default option */ }
+  }
+
+  form.addEventListener('submit', evt => {
+    evt.preventDefault();
+    const note = form.querySelector('.form-note');
+    const honeypot = form.querySelector('input[name="website"]');
+    const tooFast = Date.now() - loadedAt < 3000;
+    const isBot = (honeypot && honeypot.value) || tooFast;
+
+    if (!isBot && SITE.requestUrl) {
+      const fd = new FormData(form);
+      fd.append('page', location.pathname);
+      // Fire-and-forget: Apps Script accepts the POST; opaque response is fine
+      fetch(SITE.requestUrl, { method: 'POST', mode: 'no-cors', body: fd }).catch(() => {});
+    }
+
+    if (note) note.textContent = "Got it — it's on the list. Request another if the night calls for it.";
+    ['song', 'artist', 'dedication'].forEach(n => {
+      const el = form.querySelector(`[name="${n}"]`);
+      if (el) el.value = '';
+    });
+    form.querySelector('[name="song"]')?.focus();
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initShows();
   initForms();
+  initRequestForm();
 });
