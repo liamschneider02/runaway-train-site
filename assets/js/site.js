@@ -26,7 +26,7 @@ const SITE = {
   // Song requests: the Apps Script "Web app" URL from the band's
   // schedule sheet (see scripts/apps-script-requests.gs). While empty,
   // the form runs in demo mode (thank-you shown, nothing sent).
-  requestUrl: ''
+  requestUrl: 'https://script.google.com/macros/s/AKfycbxOLGMZ35qkcpUkcaQMH70CjTv1e1pX4nk4DyducENC0LeyPDP4PMrfWF_CQkH2iz0r/exec'
 };
 
 /* ---------------- date helpers ---------------- */
