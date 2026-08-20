@@ -351,10 +351,15 @@ async function initRequestForm() {
   if (select) {
     try {
       const events = upcoming(await getEvents());
+      const now = new Date();
+      const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
       events.forEach(e => {
         const dt = parseLocal(e.date, e.start);
         const opt = document.createElement('option');
         opt.textContent = `${DAYS[dt.getDay()]} ${MONTHS[dt.getMonth()]} ${dt.getDate()} — ${e.venue}${e.city ? ', ' + e.city : ''}`;
+        // Drunk-proofing: if there's a show tonight, it's almost
+        // certainly the one they're at — preselect it.
+        if (e.date === todayKey) opt.selected = true;
         select.appendChild(opt);
       });
     } catch (e) { /* dropdown just keeps its default option */ }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request a Song — Runaway Train</title>
+<meta name="description" content="At a Runaway Train show? Request a song and we'll work it into tonight's setlist — add a dedication and we'll give it a shout-out from the stage.">
+<link rel="canonical" href="https://runawaytrain.band/request/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Runaway Train">
+<meta property="og:title" content="Request a Song — Runaway Train">
+<meta property="og:description" content="Tell us what you want to hear and we'll work it into the set.">
+<meta property="og:url" content="https://runawaytrain.band/request/">
+<meta property="og:image" content="https://runawaytrain.band/assets/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/photos/badge.jpg">
+<link rel="preload" href="/assets/fonts/oswald-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css?v=11">
+<link rel="stylesheet" href="/assets/css/site.css?v=11">
+<script defer src="/assets/js/site.js?v=11"></script>
+<style>
+  /* One-job page: bigger targets, zero chrome */
+  .request-page { min-height: 100svh; display: grid; place-items: center; padding: clamp(20px, 5vw, 48px) 16px; }
+  .request-page .inner { width: min(560px, 100%); }
+  .request-head { text-align: center; margin-bottom: 22px; }
+  .request-head img { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--border-strong, #4A3D28); }
+  .request-head h1 { font-size: clamp(2rem, 8vw, 2.8rem); line-height: .95; margin: 10px 0 6px; }
+  .request-page .form-card input,
+  .request-page .form-card select { min-height: 52px; font-size: 17px; }
+  .request-page .form-card .btn { width: 100%; min-height: 56px; font-size: 18px; }
+  .request-back { text-align: center; margin-top: 18px; font-size: 15px; }
+  .request-back a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<main class="request-page">
+  <div class="inner">
+    <div class="request-head">
+      <a href="/"><img src="/assets/img/photos/badge.jpg" alt="Runaway Train logo" width="72" height="72"></a>
+      <p class="kicker kicker-glow" style="margin:12px 0 0;">at the show?</p>
+      <h1>Request a song</h1>
+      <p class="lead" style="margin:0;">We'll work it into the set — add a name and we'll shout you out.</p>
+    </div>
+    <form class="form-card" data-request-form>
+      <label>Song
+        <input type="text" name="song" required maxlength="120" placeholder="Neon Moon" autocomplete="off">
+      </label>
+      <label>Artist <span style="text-transform:none; letter-spacing:0;">(if you know it)</span>
+        <input type="text" name="artist" maxlength="120" placeholder="Brooks &amp; Dunn" autocomplete="off">
+      </label>
+      <label>Which show?
+        <select name="show">
+          <option>Just in general</option>
+        </select>
+      </label>
+      <label>Your name <span style="text-transform:none; letter-spacing:0;">(optional)</span>
+        <input type="text" name="name" maxlength="80">
+      </label>
+      <label>Dedication / shout-out <span style="text-transform:none; letter-spacing:0;">(optional)</span>
+        <input type="text" name="dedication" maxlength="160" placeholder="For Sarah's 40th!">
+      </label>
+      <!-- honeypot: humans never see or fill this -->
+      <label style="position:absolute; left:-9999px;" aria-hidden="true" tabindex="-1">Website
+        <input type="text" name="website" tabindex="-1" autocomplete="off">
+      </label>
+      <button class="btn btn-primary btn-lg" type="submit">Send the request</button>
+      <div class="form-note">Goes straight to the band. Keep 'em coming.</div>
+    </form>
+    <p class="request-back"><a href="/">runawaytrain.band — shows, songs &amp; booking</a></p>
+  </div>
+</main>
+</body>
+</html>

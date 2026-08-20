@@ -1,21 +1,23 @@
 /**
- * Runaway Train — song request receiver
- * ------------------------------------------------
- * Lives in the band's Show Schedule Google Sheet and appends every
- * website song request as a row in a "Requests" tab.
+ * Runaway Train — song request receiver (personal-account version)
+ * ----------------------------------------------------------------
+ * Runs as a STANDALONE script on a personal Gmail account and writes
+ * into the band's Show Schedule sheet by ID (the personal account must
+ * be an Editor on that sheet). Personal accounts have no Workspace org
+ * restrictions, so "Anyone" web-app access actually works.
  *
- * SETUP (one time, ~3 minutes):
- * 1. Open the Show Schedule sheet → Extensions → Apps Script
- * 2. Delete any starter code, paste this whole file, hit Save
- * 3. Deploy → New deployment → type: Web app
+ * SETUP (~5 minutes):
+ * 1. Make sure the schedule sheet is shared to this Gmail as Editor
+ * 2. Signed in as the personal Gmail → script.google.com → New project
+ * 3. Delete starter code, paste this whole file, hit Save
+ * 4. Deploy → New deployment → type: Web app
  *      - Execute as: Me
  *      - Who has access: Anyone
- * 4. Authorize when prompted, copy the Web app URL (ends in /exec)
- * 5. Paste that URL into SITE.requestUrl in assets/js/site.js
- *
- * Optional: set NOTIFY_EMAIL below to get an email per request.
+ * 5. Authorize when prompted, copy the Web app URL (ends in /exec)
+ * 6. Paste that URL into SITE.requestUrl in assets/js/site.js
  */
 
+var SHEET_ID = '1mRuzKp7iaCALfipKehCIVKZS0FoN3uvBfeQ7dFvMm4M'; // Show Schedule sheet
 var NOTIFY_EMAIL = ''; // e.g. 'band@example.com' — leave '' for no emails
 var TAB_NAME = 'Requests';
 var MAX_LEN = 200;
@@ -41,7 +43,7 @@ function doPost(e) {
       clean(p.page)          // page it came from
     ];
 
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById(SHEET_ID);
     var sheet = ss.getSheetByName(TAB_NAME);
     if (!sheet) {
       sheet = ss.insertSheet(TAB_NAME);
@@ -65,10 +67,6 @@ function doPost(e) {
   } catch (err) {
     return out('error');
   }
-}
-
-function doGet() {
-  return out('Runaway Train request receiver is running.');
 }
 
 function out(msg) {
