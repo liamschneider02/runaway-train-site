@@ -388,9 +388,32 @@ async function initRequestForm() {
   });
 }
 
+/* ---------------- video embeds (click-to-play facade) ----------------
+   YouTube's player JS (~1MB) only loads when someone actually presses
+   play — until then the page just shows the video's thumbnail. */
+function initVideoEmbeds() {
+  document.querySelectorAll('button[data-video-id]').forEach(el => {
+    const id = el.dataset.videoId;
+    const img = el.querySelector('img.poster');
+    if (img && !img.getAttribute('src')) {
+      img.src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+      img.onerror = () => { img.onerror = null; img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; };
+    }
+    el.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.title = el.getAttribute('aria-label') || 'Video player';
+      el.replaceChildren(iframe);
+    }, { once: true });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initShows();
   initForms();
   initRequestForm();
+  initVideoEmbeds();
 });
