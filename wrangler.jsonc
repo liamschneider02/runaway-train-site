@@ -1,0 +1,14 @@
+{
+  // Runaway Train site — Cloudflare Worker with static assets.
+  // Deployed automatically on push via the connected Workers build
+  // (deploy command: npx wrangler deploy).
+  "name": "runaway-train-site",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  }
+}

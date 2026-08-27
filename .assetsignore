@@ -1,0 +1,7 @@
+.git
+.github
+functions
+scripts
+src
+wrangler.jsonc
+.assetsignore
