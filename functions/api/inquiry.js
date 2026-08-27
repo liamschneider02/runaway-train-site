@@ -13,7 +13,7 @@
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbxOLGMZ35qkcpUkcaQMH70CjTv1e1pX4nk4DyducENC0LeyPDP4PMrfWF_CQkH2iz0r/exec';
 const FROM = 'Runaway Train Website <booking@runawaytrain.band>';
-const TO = 'Runawaytrainstl@gmail.com';
+const TO = 'schneider33liam@gmail.com'; // TEMP: testing — flip back to Runawaytrainstl@gmail.com before launch
 const MAX_LEN = 200;
 const MAX_MSG = 800;
 
