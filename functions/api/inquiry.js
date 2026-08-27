@@ -12,7 +12,7 @@
 
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbxOLGMZ35qkcpUkcaQMH70CjTv1e1pX4nk4DyducENC0LeyPDP4PMrfWF_CQkH2iz0r/exec';
-const FROM = 'Runaway Train Website <booking@runawaytrain.band>';
+const FROM = 'Booking Inquiry <booking@runawaytrain.band>';
 const TO = 'schneider33liam@gmail.com'; // TEMP: testing — flip back to Runawaytrainstl@gmail.com before launch
 const MAX_LEN = 200;
 const MAX_MSG = 800;
@@ -55,21 +55,43 @@ export async function onRequestPost({ request, env, waitUntil }) {
     const budget = clean('budget');
     const message = clean('message', MAX_MSG);
 
-    const lines = [
+    const fields = [
+      ['Name', name],
+      ['Email', email],
+      ['Phone', phone],
+      ['Event date', eventDate],
+      ['Venue', venue],
+      ['Event type', eventType],
+      ['Lineup', lineup],
+      ['Budget', budget],
+    ].filter(([, v]) => v);
+
+    const text = [
       'New booking inquiry from the website:',
       '',
-      `Name: ${name}`,
-      `Email: ${email}`,
-      phone && `Phone: ${phone}`,
-      eventDate && `Event date: ${eventDate}`,
-      venue && `Venue: ${venue}`,
-      eventType && `Event type: ${eventType}`,
-      lineup && `Lineup: ${lineup}`,
-      budget && `Budget: ${budget}`,
+      ...fields.map(([k, v]) => `${k}: ${v}`),
       message && `\n${message}`,
       '',
       'Hit reply to answer them directly.',
-    ].filter(Boolean);
+    ].filter(Boolean).join('\n');
+
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const html = `
+      <div style="font-family:Arial,Helvetica,sans-serif; color:#1a1a1a; max-width:560px;">
+        <h2 style="margin:0 0 4px; font-size:20px;">New booking inquiry</h2>
+        <p style="margin:0 0 18px; color:#777; font-size:13px;">from runawaytrain.band</p>
+        <table cellpadding="0" cellspacing="0" style="border-collapse:collapse; width:100%; font-size:15px;">
+          ${fields.map(([k, v]) => `
+          <tr>
+            <td style="padding:7px 16px 7px 0; font-weight:bold; white-space:nowrap; vertical-align:top; border-bottom:1px solid #eee;">${esc(k)}</td>
+            <td style="padding:7px 0; vertical-align:top; border-bottom:1px solid #eee;">${esc(v)}</td>
+          </tr>`).join('')}
+        </table>
+        ${message ? `
+        <p style="margin:18px 0 6px; font-weight:bold; font-size:15px;">Message</p>
+        <p style="margin:0; padding:12px 14px; background:#faf6ee; border-left:3px solid #FFB020; font-size:15px; line-height:1.5;">${esc(message)}</p>` : ''}
+        <p style="margin:22px 0 0; color:#777; font-size:13px;">Hit reply to answer ${esc(name)} directly.</p>
+      </div>`;
 
     try {
       const res = await fetch('https://api.resend.com/emails', {
@@ -83,7 +105,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
           to: [TO],
           reply_to: email,
           subject: `Booking inquiry: ${venue || name}${eventDate ? ' — ' + eventDate : ''}`,
-          text: lines.join('\n'),
+          text,
+          html,
         }),
       });
       emailed = res.ok;
