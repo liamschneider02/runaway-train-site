@@ -26,7 +26,7 @@ const SITE = {
   // Song requests: the Apps Script "Web app" URL from the band's
   // schedule sheet (see scripts/apps-script-requests.gs). While empty,
   // the form runs in demo mode (thank-you shown, nothing sent).
-  requestUrl: 'https://script.google.com/macros/s/AKfycbxOLGMZ35qkcpUkcaQMH70CjTv1e1pX4nk4DyducENC0LeyPDP4PMrfWF_CQkH2iz0r/exec'
+  inquiryUrl: '/api/inquiry' // Pages Function: Resend email + sheet logging
 };
 
 /* ---------------- date helpers ---------------- */
@@ -327,15 +327,31 @@ function initNav() {
 }
 
 function initForms() {
-  document.querySelectorAll('form[data-static-form]').forEach(form => {
-    form.addEventListener('submit', e => {
-      // If no backend is configured yet, keep it client-side.
-      if (form.getAttribute('action') === '#') {
-        e.preventDefault();
-        const note = form.querySelector('.form-note');
-        if (note) note.textContent = 'Thanks — we reply within 48 hours.';
-        form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
+  // Booking inquiries → /api/inquiry (Pages Function): emails the band
+  // from the domain via Resend + logs to the sheet's Bookings tab.
+  document.querySelectorAll('form[data-booking-form]').forEach(form => {
+    const loadedAt = Date.now();
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const note = form.querySelector('.form-note');
+      const honeypot = form.querySelector('input[name="website"]');
+      const tooFast = Date.now() - loadedAt < 3000;
+      const isBot = (honeypot && honeypot.value) || tooFast;
+      form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
+      if (!isBot) {
+        const fd = new FormData(form);
+        fd.append('formType', 'booking');
+        fd.append('page', location.pathname);
+        try {
+          const res = await fetch(SITE.inquiryUrl, { method: 'POST', body: fd });
+          if (!res.ok) throw new Error('bad status');
+        } catch (err) {
+          if (note) note.textContent = 'Hmm — that didn’t go through. Email us at Runawaytrainstl@gmail.com and we’ve got you.';
+          form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = false);
+          return;
+        }
       }
+      if (note) note.textContent = 'Sent — we reply within 48 hours. Thanks!';
     });
   });
 }
@@ -372,11 +388,11 @@ async function initRequestForm() {
     const tooFast = Date.now() - loadedAt < 3000;
     const isBot = (honeypot && honeypot.value) || tooFast;
 
-    if (!isBot && SITE.requestUrl) {
+    if (!isBot) {
       const fd = new FormData(form);
       fd.append('page', location.pathname);
-      // Fire-and-forget: Apps Script accepts the POST; opaque response is fine
-      fetch(SITE.requestUrl, { method: 'POST', mode: 'no-cors', body: fd }).catch(() => {});
+      // Same-origin Pages Function logs to the sheet; fire-and-forget for UX
+      fetch(SITE.inquiryUrl, { method: 'POST', body: fd }).catch(() => {});
     }
 
     if (note) note.textContent = "Got it — it's on the list. Request another if the night calls for it.";

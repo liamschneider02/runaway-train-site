@@ -239,9 +239,9 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 }
 @media (max-width: 660px) {
   .show-card { grid-template-columns: 1fr; gap: 14px; align-items: stretch; }
-  .show-date { grid-row: auto; text-align: left; border-right: 0; padding-right: 0; display: flex; align-items: baseline; gap: 10px; }
+  .show-card .show-date { grid-row: auto; text-align: left; border-right: 0; padding-right: 0; display: flex; align-items: baseline; gap: 10px; }
   .show-date .day { font-size: 34px; }
-  .show-actions { grid-column: auto; }
+  .show-card .show-actions { grid-column: auto; }
 }
 .show-empty { color: var(--text-muted); padding: 26px 0; }
 

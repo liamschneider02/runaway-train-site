@@ -15,9 +15,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/photos/badge.jpg">
 <link rel="preload" href="/assets/fonts/oswald-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/fonts.css?v=12">
-<link rel="stylesheet" href="/assets/css/site.css?v=12">
-<script defer src="/assets/js/site.js?v=12"></script>
+<link rel="stylesheet" href="/assets/css/fonts.css?v=15">
+<link rel="stylesheet" href="/assets/css/site.css?v=15">
+<script defer src="/assets/js/site.js?v=15"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -118,14 +118,12 @@
           <div>We reply within 48 hours.</div>
           <div>Insured, own PA and lights, on stage at soundcheck time.</div>
           <div>Full 6-piece band, or the 3–4 piece acoustic combo for smaller rooms.</div>
-          <div><a href="mailto:booking@example.com" data-todo="booking-email">booking@example.com</a></div>
+          <div><a href="mailto:Runawaytrainstl@gmail.com">Runawaytrainstl@gmail.com</a></div>
         </div>
         <img src="/assets/img/photos/full-band.jpg" alt="Runaway Train full band performing on stage" loading="lazy" style="margin-top:28px; border:1px solid var(--border-warm); border-radius:var(--radius); box-shadow:0 20px 60px var(--ember-glow);" width="1024" height="681">
       </div>
 
-      <!-- TODO(form-backend): point action at FormSubmit/Formspree/Cloudflare Function
-           once the band's booking email is confirmed. action="#" = demo mode. -->
-      <form class="form-card" method="POST" action="#" data-static-form>
+      <form class="form-card" data-booking-form>
         <div class="form-row">
           <label>Name
             <input type="text" name="name" autocomplete="name" required>
@@ -170,6 +168,10 @@
         </div>
         <label>Anything else
           <textarea name="message" rows="4" placeholder="Venue size, crowd, timing, must-play songs…"></textarea>
+        </label>
+        <!-- honeypot: humans never see or fill this -->
+        <label style="position:absolute; left:-9999px;" aria-hidden="true" tabindex="-1">Website
+          <input type="text" name="website" tabindex="-1" autocomplete="off">
         </label>
         <button class="btn btn-primary btn-lg" type="submit">Send booking request</button>
         <div class="form-note">We reply within 48 hours. Dates are held on a signed agreement.</div>
@@ -249,7 +251,7 @@
       <div class="col-title">Booking</div>
       <div class="links" style="color:var(--text-body); font-size:15px;">
         <a href="/book/">Booking form</a>
-        <a href="mailto:booking@example.com" data-todo="booking-email">booking@example.com</a>
+        <a href="mailto:Runawaytrainstl@gmail.com">Runawaytrainstl@gmail.com</a>
       </div>
     </div>
   </div>
