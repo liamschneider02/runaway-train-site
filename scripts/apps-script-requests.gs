@@ -7,7 +7,7 @@
  *   - booking inquiries (formType=booking) → "Bookings" tab + email to the band
  */
 
-var BOOKING_EMAIL = 'Runawaytrainstl@gmail.com'; // booking inquiries land here
+var BOOKING_EMAIL = ''; // email now sent by the website's /api/inquiry via Resend — this stays off
 var NOTIFY_EMAIL = ''; // optional: also email each song request — '' = off
 var MAX_LEN = 200;
 var MAX_MSG = 800;
