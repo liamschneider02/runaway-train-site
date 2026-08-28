@@ -1,5 +1,6 @@
 {
-  "_comment": "Runaway Train show list. Add shows here (or in the Google Sheet if enabled — the Sheet wins when configured). date = YYYY-MM-DD, start/end = 24h HH:MM local. Past shows hide automatically. fbEvent/ticketUrl are optional.",
+  "_comment": "AUTO-SYNCED from the band's Google Sheet by scripts/sync-events.mjs — edit the Sheet, not this file. Serves as the site's fallback if the live Sheet fetch fails.",
+  "_syncedFrom": "google-sheet",
   "events": [
     {
       "date": "2026-08-21",
@@ -9,8 +10,8 @@
       "city": "Warrenton",
       "state": "MO",
       "lineup": "Runaway Train — full band",
-      "fbEvent": "",
-      "ticketUrl": "",
+      "fbEvent": "https://fb.me/e/4Uc4uiM7C",
+      "ticketUrl": "https://www.ticketmaster.com/event/0600643519693501",
       "notes": ""
     },
     {
@@ -22,7 +23,7 @@
       "state": "MO",
       "lineup": "Runaway Train — full band",
       "fbEvent": "",
-      "ticketUrl": "",
+      "ticketUrl": "https://www.ticketmaster.com/event/0600643519693501",
       "notes": ""
     },
     {
@@ -30,12 +31,12 @@
       "start": "19:00",
       "end": "23:00",
       "venue": "Roadhouse Barn & Grill",
-      "city": "Barnhart",
+      "city": "Hawk Point",
       "state": "MO",
       "lineup": "Runaway Train — full band",
-      "fbEvent": "",
+      "fbEvent": "https://fb.me/e/4Uc4uiM7C",
       "ticketUrl": "",
-      "notes": ""
+      "notes": "Rain or Shine"
     },
     {
       "date": "2026-09-19",
@@ -58,7 +59,7 @@
       "state": "MO",
       "lineup": "Runaway Train — full band",
       "fbEvent": "",
-      "ticketUrl": "",
+      "ticketUrl": "https://www.ticketmaster.com/event/0600643519693501",
       "notes": ""
     }
   ]
