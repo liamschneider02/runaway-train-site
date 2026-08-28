@@ -337,11 +337,13 @@ function initForms() {
       const honeypot = form.querySelector('input[name="website"]');
       const tooFast = Date.now() - loadedAt < 3000;
       const isBot = (honeypot && honeypot.value) || tooFast;
+      // Build the payload BEFORE disabling — disabled fields are
+      // excluded from FormData (this ordering bug once sent empty forms).
+      const fd = new FormData(form);
+      fd.append('formType', 'booking');
+      fd.append('page', location.pathname);
       form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
       if (!isBot) {
-        const fd = new FormData(form);
-        fd.append('formType', 'booking');
-        fd.append('page', location.pathname);
         try {
           const res = await fetch(SITE.inquiryUrl, { method: 'POST', body: fd });
           if (!res.ok) throw new Error('bad status');
