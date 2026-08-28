@@ -447,3 +447,30 @@ h3 { font-weight: 700; font-size: var(--fs-h3); line-height: 1; }
 .video-embed .play-btn svg { margin-left: 6%; width: 38%; height: auto; }
 .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .video-caption { margin-top: 12px; color: var(--text-muted); font-size: 15px; }
+
+/* ---- form success states ---- */
+.form-success { text-align: center; padding: clamp(24px, 5vw, 48px) 12px; }
+.form-success .check-big {
+  width: 68px; height: 68px; margin: 0 auto 18px; border-radius: 50%;
+  background: #2E9E5B; display: grid; place-items: center;
+  box-shadow: 0 0 34px rgba(63, 208, 121, .45);
+  animation: check-pop .45s cubic-bezier(.175, .885, .32, 1.4) both;
+}
+.form-success .check-big svg { width: 34px; height: 34px; }
+.form-success h3 { font-family: var(--f-display); font-size: 24px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
+.form-success p { color: var(--text-muted); margin: 0; font-size: 15px; }
+.mini-success {
+  display: flex; align-items: center; gap: 10px; margin-top: 14px;
+  font-size: 15px; color: #9FE0B4;
+  animation: check-pop .4s cubic-bezier(.175, .885, .32, 1.4) both;
+}
+.mini-success .check-sm {
+  flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%;
+  background: #2E9E5B; display: grid; place-items: center;
+  box-shadow: 0 0 16px rgba(63, 208, 121, .55);
+}
+.mini-success .check-sm svg { width: 12px; height: 12px; }
+@keyframes check-pop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .form-success .check-big, .mini-success { animation: none; }
+}

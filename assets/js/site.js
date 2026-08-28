@@ -353,7 +353,15 @@ function initForms() {
           return;
         }
       }
-      if (note) note.textContent = 'Sent — we reply within 48 hours. Thanks!';
+      // Success: swap the whole form for a confirmation card
+      const ok = document.createElement('div');
+      ok.className = 'form-success';
+      ok.innerHTML =
+        '<div class="check-big" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#0B0A09" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>' +
+        '<h3>Request sent</h3>' +
+        '<p>We reply within 48 hours — keep an eye on your inbox.</p>';
+      form.replaceChildren(ok);
+      form.scrollIntoView({ block: 'center', behavior: 'smooth' });
     });
   });
 }
@@ -397,7 +405,14 @@ async function initRequestForm() {
       fetch(SITE.inquiryUrl, { method: 'POST', body: fd }).catch(() => {});
     }
 
-    if (note) note.textContent = "Got it — it's on the list. Request another if the night calls for it.";
+    // Glowy green check under the button — replayed on every request
+    form.querySelector('.mini-success')?.remove();
+    const okRow = document.createElement('div');
+    okRow.className = 'mini-success';
+    okRow.innerHTML =
+      '<span class="check-sm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#0B0A09" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' +
+      '<span>Received — the band&rsquo;s got it. Go on, request another.</span>';
+    form.querySelector('button[type="submit"]').insertAdjacentElement('afterend', okRow);
     ['song', 'artist', 'dedication'].forEach(n => {
       const el = form.querySelector(`[name="${n}"]`);
       if (el) el.value = '';
